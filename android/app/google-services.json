@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "637278352622",
+    "project_id": "chatapp0backend",
+    "storage_bucket": "chatapp0backend.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:637278352622:android:5b557ebba4abff1eb16fff",
+        "android_client_info": {
+          "package_name": "com.example.whatsapp_ui"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBZsipMus_VAroYdLdHoeoMXVDOy9evsbc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
