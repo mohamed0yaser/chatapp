@@ -3,11 +3,11 @@ import 'dart:developer';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:whatsapp_ui/colors.dart';
 import 'package:whatsapp_ui/common/widgets/custom_app_bar.dart';
 import 'package:whatsapp_ui/common/widgets/custom_button.dart';
 import 'package:whatsapp_ui/features/auth/controller/auth_controller.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class LoginScreen extends ConsumerStatefulWidget {
   static const routeName = '/login';
@@ -18,10 +18,10 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-final TextEditingController phoneController = TextEditingController();
-String? initialCountry;
-String? countryEmoji;
-String? phoneNumber;
+  final TextEditingController phoneController = TextEditingController();
+  String? initialCountry;
+  String? countryEmoji;
+  String? phoneNumber;
 
   @override
   void dispose() {
@@ -29,23 +29,30 @@ String? phoneNumber;
     super.dispose();
   }
 
-void selectCountry() {
-  showCountryPicker(
-    context: context,
-    showPhoneCode: true,
-    onSelect: (Country country) {
-      setState(() {
-        initialCountry = "+${country.phoneCode}";
-        countryEmoji = country.flagEmoji;
-      });
-      log('Select country: ${country.displayName}');
-    },
-  );
+  void selectCountry() {
+    showCountryPicker(
+      context: context,
+      showPhoneCode: true,
+      countryListTheme: const CountryListThemeData(
+        borderRadius: BorderRadius.all(Radius.circular(16)),
+        backgroundColor: Colors.white,
+        padding: EdgeInsets.all(16.0),
+        bottomSheetHeight: 600,
+        bottomSheetWidth: 420,
+      ),
+      onSelect: (Country country) {
+        setState(() {
+          initialCountry = "+${country.phoneCode}";
+          countryEmoji = country.flagEmoji;
+        });
+        log('Select country: \\${country.displayName}');
+      },
+    );
   }
 
   void sendPhoneNumber() {
     if (phoneNumber != null && phoneNumber!.isNotEmpty) {
-      ref.read(authControllerProvider.notifier).signInWithPhone(phoneNumber!, context);
+      ref.read(authControllerProvider).signInWithPhone(phoneNumber!, context);
     }
   }
 
@@ -67,7 +74,6 @@ void selectCountry() {
         padding: const EdgeInsets.all(8.0),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          
           children: [
             Column(
               children: [
@@ -75,7 +81,7 @@ void selectCountry() {
                   height: 10,
                 ),
                 const Text(
-                  'WhatsApp will need to verify your phone number',
+                  'ChatApp will need to verify your phone number',
                   style: TextStyle(
                     fontSize: 15,
                   ),
@@ -99,20 +105,21 @@ void selectCountry() {
                 ),
                 Container(
                   margin: const EdgeInsets.symmetric(horizontal: 30),
-                  child:  Row(
+                  child: Row(
                     children: [
-                      if(initialCountry != null)
-                       SizedBox(
-                        width: 60,
-                        child: TextField(
-                          readOnly: true,
-                          decoration: InputDecoration(
-                            hintText: '$countryEmoji $initialCountry',
-                            hintStyle: const TextStyle(fontSize: 14),
+                      if (initialCountry != null)
+                        SizedBox(
+                          width: 80,
+                          child: TextField(
+                            readOnly: true,
+                            onTap: () => selectCountry(),
+                            decoration: InputDecoration(
+                              hintText: '$countryEmoji $initialCountry',
+                              hintStyle: const TextStyle(fontSize: 14),
+                            ),
                           ),
                         ),
-                      ),
-                       const SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Expanded(
@@ -146,7 +153,6 @@ void selectCountry() {
                 const SizedBox(
                   height: 20,
                 ),
-                
               ],
             ),
             CustomButton(

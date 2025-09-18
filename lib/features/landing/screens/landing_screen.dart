@@ -41,12 +41,11 @@ class LandingScreen extends StatelessWidget {
                 'By continuing, you agree to our \n Terms of Service and Privacy Policy',
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  color: Colors.grey,
                   fontSize: 15,
                 ),
               ),
               SizedBox(
-                height: size.height / 100,
+                height: size.height / 120,
               ),
               SizedBox(
                 width: size.width * 0.75,

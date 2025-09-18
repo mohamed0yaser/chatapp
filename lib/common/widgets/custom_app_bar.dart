@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:whatsapp_ui/common/theme/app_colors.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -21,8 +22,8 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: backgroundColor ?? Colors.transparent,
-      title: Text(title),
+      backgroundColor: backgroundColor,
+      title: Text(title, style: const TextStyle(color: AppColors.primary)),
       centerTitle: centerTitle ?? true,
       elevation: elevation ?? 0,
       actions: actions,

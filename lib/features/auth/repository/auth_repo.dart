@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:whatsapp_ui/common/widgets/utils/utils.dart';
 import 'package:whatsapp_ui/features/auth/screens/otp_screen.dart';
+import 'package:whatsapp_ui/features/auth/screens/user_info_screen.dart';
 
 final authRepoProvider = Provider((ref) {
   return AuthRepo(
@@ -44,6 +45,28 @@ class AuthRepo {
           log('Auto-resolution timed out for verificationId: $verificationId');
           showToast(context: context, messege: 'Auto-resolution timed out');
         },
+      );
+    } on FirebaseAuthException catch (e) {
+      showToast(context: context, messege: e.message!);
+    }
+  }
+
+  void verifyOTP({
+    required String verificationId,
+    required String userOTP,
+    required BuildContext context,
+  }) async {
+    try {
+      PhoneAuthCredential credential = PhoneAuthProvider.credential(
+        verificationId: verificationId,
+        smsCode: userOTP,
+      );
+
+      await firebaseAuth.signInWithCredential(credential);
+      Navigator.pushNamedAndRemoveUntil(
+        context,
+        UserInfoScreen.routeName,
+        (route) => false,
       );
     } on FirebaseAuthException catch (e) {
       showToast(context: context, messege: e.message!);
